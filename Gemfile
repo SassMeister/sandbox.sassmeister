@@ -5,9 +5,9 @@ gem 'sinatra'
 gem 'unicorn'
 gem 'newrelic_rpm'
 
-group :development do
+# group :development do
   gem 'activesupport', '~> 4.0.0'
-end
+# end
 
 gem 'html-pipeline', '~> 0.2.1'
 gem 'haml'
