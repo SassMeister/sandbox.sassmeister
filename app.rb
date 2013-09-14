@@ -18,15 +18,16 @@ require './lib/html/pipeline/haml.rb'
 # require 'pry-remote'
 
 class SassMeisterCompilerApp < Sinatra::Base
+  set :protection, :except => :frame_options
+
   configure :production do
-    APP_HOST = 'sassmeister.com'
+    APP_DOMAIN = 'sassmeister.com'
     require 'newrelic_rpm'
   end
 
   configure :development do
-    APP_HOST = 'sassmeister.dev'
+    APP_DOMAIN = 'sassmeister.dev'
   end
-
 
   helpers do
     def render_html(html, filter)
@@ -45,10 +46,7 @@ class SassMeisterCompilerApp < Sinatra::Base
         filter = HTML::Pipeline::MarkdownFilter
       end
 
-      pipe = HTML::Pipeline.new [
-        filter
-
-      ], context
+      pipe = HTML::Pipeline.new [filter], context
 
       pipe.call(html)[:output]
     end
@@ -60,13 +58,12 @@ class SassMeisterCompilerApp < Sinatra::Base
     params[:original_syntax].downcase! unless params[:original_syntax].nil?
     params[:html_syntax].downcase! unless params[:html_syntax].nil?
 
-    headers 'Access-Control-Allow-Origin' => "http://#{APP_HOST}"
+    headers 'Access-Control-Allow-Origin' => "http://#{APP_DOMAIN}"
   end
 
   get '/' do
-    status 501
+    erb :render, :layout => false
   end
-
 
   post '/' do
     case params[:html_syntax]
