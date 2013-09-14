@@ -4,7 +4,7 @@ A service app in support of [sassmeister.com](http://sassmeister.com).
 
 ## Local installation ##
 
-Clone. Use [Pow](http://pow.cxÍ). 
+Clone. `bundle install`. Use [Pow](http://pow.cxÍ):
 
 ````
 ln -s path/to/sandbox.sassmeister ~/.pow/sandbox.sassmeister
