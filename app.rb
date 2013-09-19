@@ -32,8 +32,7 @@ class SassMeisterCompilerApp < Sinatra::Base
   helpers do
     def render_html(html, filter)
       context = {
-        :gfm => true,
-        :whitelist => HTML::Pipeline::SanitizationFilter::WHITELIST
+        :gfm => true
       }
 
       if filter == 'Textile'
@@ -48,7 +47,7 @@ class SassMeisterCompilerApp < Sinatra::Base
 
       pipe = HTML::Pipeline.new [filter], context
 
-      pipe.call(html)[:output]
+      pipe.call(html)[:output].to_html
     end
   end
 
