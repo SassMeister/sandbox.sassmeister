@@ -16,6 +16,8 @@
         if(info.css) { document.querySelector('style').textContent = info.css; }
 
         if(info.html) { document.body.innerHTML = info.html; }
+
+        if(info.reset) { document.querySelector('style').textContent = document.body.innerHTML = ''; }
       }
     };
   </script>
