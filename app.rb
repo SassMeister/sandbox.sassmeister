@@ -45,17 +45,17 @@ class SassMeisterCompilerApp < Sinatra::Base
         filter = HTML::Pipeline::MarkdownFilter
       end
 
-      pipe = HTML::Pipeline.new [filter], context
+      output = HTML::Pipeline.new([filter], context).call(html)[:output]
 
-      pipe.call(html)[:output].to_html
+      return output.to_html if output.respond_to?(:to_html)
+
+      return output.to_s
     end
   end
 
 
   before do
     params[:syntax].downcase! unless params[:syntax].nil?
-    params[:original_syntax].downcase! unless params[:original_syntax].nil?
-    params[:html_syntax].downcase! unless params[:html_syntax].nil?
 
     headers 'Access-Control-Allow-Origin' => "http://#{APP_DOMAIN}"
   end
@@ -65,18 +65,18 @@ class SassMeisterCompilerApp < Sinatra::Base
   end
 
   post '/' do
-    case params[:html_syntax]
+    case params[:syntax]
     when 'haml'
-        return render_html(params[:html], 'Haml')
+        return render_html(params[:input], 'Haml')
 
     when 'markdown'
-        return render_html(params[:html], 'Markdown')
+        return render_html(params[:input], 'Markdown')
 
     when 'textile'
-        return render_html(params[:html], 'Textile')
+        return render_html(params[:input], 'Textile')
 
     else
-      return params[:html]
+      return params[:input]
     end
   end
 
