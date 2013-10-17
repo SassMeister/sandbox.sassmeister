@@ -10,7 +10,7 @@
     document.addEventListener('DOMContentLoaded', function() { parent.postMessage('Bring it.', '*'); });
 
     onmessage = function (event) {
-      if (event.origin === 'http://<%= APP_DOMAIN %>') {
+      if (event.origin === '<%= origin %>') {
         var info = JSON.parse(event.data);
 
         if(info.css) { document.querySelector('style').textContent = info.css; }

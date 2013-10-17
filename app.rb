@@ -11,7 +11,8 @@ require 'json'
 require 'html/pipeline'
 require 'RedCloth'
 require 'haml'
-require 'slim'
+# require 'slim'
+require 'uri'
 
 require './lib/html/pipeline/haml.rb'
 
@@ -21,13 +22,9 @@ class SassMeisterCompilerApp < Sinatra::Base
   set :protection, :except => :frame_options
 
   configure :production do
-    APP_DOMAIN = 'sassmeister.com'
     require 'newrelic_rpm'
   end
 
-  configure :development do
-    APP_DOMAIN = 'sassmeister.dev'
-  end
 
   helpers do
     def render_html(html, filter)
@@ -51,13 +48,33 @@ class SassMeisterCompilerApp < Sinatra::Base
 
       return output.to_s
     end
-  end
 
+    def origin
+      return request["HTTP_ORIGIN"] if origin_allowed? request["HTTP_ORIGIN"]
+
+      uri = URI.parse(request.referer)
+      referer =  URI.parse('')
+      referer.scheme = uri.scheme
+      referer.host = uri.host
+
+      return referer.to_s if origin_allowed? referer.to_s
+
+      return false
+    end
+
+    def origin_allowed?(uri)
+      return false if uri.nil?
+
+      return uri.match(/^http:\/\/((beta|edge)\.){0,1}sassmeister\.(com|dev)/)
+    end
+  end
 
   before do
     params[:syntax].downcase! unless params[:syntax].nil?
 
-    headers 'Access-Control-Allow-Origin' => "http://#{APP_DOMAIN}"
+    APP_DOMAIN = URI.parse(origin).host.sub(/^(?:beta|edge)\./, '')
+
+    headers 'Access-Control-Allow-Origin' => origin if origin
   end
 
   get '/' do
