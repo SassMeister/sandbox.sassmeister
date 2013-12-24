@@ -1,5 +1,5 @@
 source 'http://rubygems.org'
-ruby '1.9.3'
+ruby '2.0.0'
 
 gem 'sinatra'
 gem 'unicorn'
@@ -12,6 +12,6 @@ gem 'newrelic_rpm'
 gem 'html-pipeline', '~> 0.2.1'
 gem 'haml'
 gem 'RedCloth'
-gem 'slim'
+# gem 'slim'
 
 # gem 'pry-remote'
