@@ -50,7 +50,7 @@ class SassMeisterCompilerApp < Sinatra::Base
     end
 
     def origin
-      return request["HTTP_ORIGIN"] if origin_allowed? request["HTTP_ORIGIN"]
+      return request.env["HTTP_ORIGIN"] if origin_allowed? request.env["HTTP_ORIGIN"]
 
       uri = URI.parse(request.referer)
       referer =  URI.parse('')
@@ -71,8 +71,6 @@ class SassMeisterCompilerApp < Sinatra::Base
 
   before do
     params[:syntax].downcase! unless params[:syntax].nil?
-
-    APP_DOMAIN = URI.parse(origin).host.sub(/^(?:beta|edge)\./, '')
 
     headers 'Access-Control-Allow-Origin' => origin if origin
   end
