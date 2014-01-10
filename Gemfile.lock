@@ -9,33 +9,24 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
     atomic (1.1.14)
-    escape_utils (0.3.2)
-    gemoji (1.5.0)
     github-markdown (0.6.3)
-    haml (4.0.4)
+    haml (4.0.5)
       tilt
-    html-pipeline (0.2.1)
-      escape_utils (~> 0.3)
-      gemoji (~> 1.0)
-      github-markdown (~> 0.5)
+    html-pipeline (1.2.0)
+      activesupport (>= 2)
       nokogiri (~> 1.4)
-      rinku (~> 1.7)
-      sanitize (~> 2.0)
     i18n (0.6.9)
     kgio (2.8.1)
     mini_portile (0.5.2)
     minitest (4.7.5)
-    multi_json (1.8.2)
-    newrelic_rpm (3.7.1.180)
+    multi_json (1.8.4)
+    newrelic_rpm (3.7.1.182)
     nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
     rack (1.5.2)
     rack-protection (1.5.1)
       rack
     raindrops (0.12.0)
-    rinku (1.7.3)
-    sanitize (2.0.6)
-      nokogiri (>= 1.4.4)
     sinatra (1.4.4)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -54,9 +45,9 @@ PLATFORMS
 
 DEPENDENCIES
   RedCloth
-  activesupport (~> 4.0.0)
+  github-markdown
   haml
-  html-pipeline (~> 0.2.1)
+  html-pipeline
   newrelic_rpm
   sinatra
   unicorn
