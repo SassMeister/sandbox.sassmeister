@@ -7,8 +7,13 @@ gem 'html-pipeline'
 gem 'github-markdown'
 gem 'haml'
 gem 'RedCloth'
+gem 'rake'
 
-# gem 'pry-remote'
+group :development, :test do
+  gem 'pry-remote'
+  gem 'pry'
+  gem 'rack-test'
+end
 
 group :production do
   gem 'newrelic_rpm'
