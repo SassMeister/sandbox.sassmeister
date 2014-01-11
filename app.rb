@@ -18,7 +18,7 @@ require './lib/html/pipeline/haml.rb'
 
 # require 'pry-remote'
 
-class SassMeisterCompilerApp < Sinatra::Base
+class HtmlCompilerApp < Sinatra::Base
   set :protection, :except => :frame_options
 
   configure :production do

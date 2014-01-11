@@ -4,4 +4,4 @@ require './app'
 use Rack::Deflater
 
 # Run the application
-run SassMeisterCompilerApp
+run HtmlCompilerApp
