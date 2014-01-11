@@ -52,12 +52,14 @@ class HtmlCompilerApp < Sinatra::Base
     def origin
       return request.env["HTTP_ORIGIN"] if origin_allowed? request.env["HTTP_ORIGIN"]
 
-      uri = URI.parse(request.referer)
-      referer =  URI.parse('')
-      referer.scheme = uri.scheme
-      referer.host = uri.host
+      unless request.referer.nil?
+        uri = URI.parse(request.referer)
+        referer =  URI.parse('')
+        referer.scheme = uri.scheme
+        referer.host = uri.host
 
-      return referer.to_s if origin_allowed? referer.to_s
+        return referer.to_s if origin_allowed? referer.to_s
+      end
 
       return false
     end
@@ -72,7 +74,11 @@ class HtmlCompilerApp < Sinatra::Base
   before do
     params[:syntax].downcase! unless params[:syntax].nil?
 
-    headers 'Access-Control-Allow-Origin' => origin if origin
+    if origin
+      headers 'Access-Control-Allow-Origin' => origin 
+    else
+      status 403
+    end
   end
 
   get '/' do
