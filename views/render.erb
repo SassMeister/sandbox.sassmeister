@@ -7,13 +7,20 @@
   <script>
     document.addEventListener('DOMContentLoaded', function() { parent.postMessage('Bring it.', '*'); });
 
+    _nativeEval = window.eval;
+    window.eval = function(text) { _nativeEval(text.replace(/^(.*location.*=.*)$/mi, '')); };
+
     onmessage = function (event) {
       if (event.origin === '<%= origin %>') {
         var info = JSON.parse(event.data);
 
         if(info.css) { document.querySelector('style').textContent = info.css; }
 
-        if(info.html) { document.body.innerHTML = info.html; }
+        if(info.html) {
+          document.body.innerHTML = info.html;
+          var scripts = document.body.getElementsByTagName('script'), l = scripts.length;
+          for (var i = 0; i < l; i++) { window.eval(scripts[i].innerHTML) }
+        }
 
         if(info.reset) { document.querySelector('style').textContent = document.body.innerHTML = ''; }
       }
